@@ -24,7 +24,7 @@ if(sw){
    navigator.serviceWorker.ready.then( registrar =>{
 
       //REGISTRAR SYNC A CADA 24HORAS
-      registrar.periodicSync.register('check-scheduled-message',{minInterval: 24*60*60*1000}/*um dia*/);
+      registrar.periodicSync.register('check-scheduled-message',{minInterval: 60*1000/*24*60*60*1000*/}/*um dia*/);
 
    });
 

@@ -56,7 +56,7 @@ async function checarMsgAgendada() {
 
   const dataAgendadaAlert = new Date("<DATA-definida>");
 
-  if(new Date()>=dataAgendadaAlert){
+  if(new Date()>="2025-11-16"){
 
     //DATA CHEGOU EXIBIR ALERTA
     self.ServiceWorkerRegistration.showNotification("Titulo da mensagem (agendaDB.title)",{
