@@ -1,7 +1,7 @@
 if("serviceWorker" in navigator){
     var worker = navigator.serviceWorker;
     worker.register("./sw.js")
-    .ready()
+    
     .then((reg) => {
     
       console.log("Registro de SW Bem-sucedido",reg);
