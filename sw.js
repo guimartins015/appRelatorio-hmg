@@ -1,7 +1,7 @@
 const CACHE_NAME="v1_cache_panel_adm",
  urlsToCache = [
 
-    "https://guimartins015.github.io/appRelatorio/","./manifest.json"
+    "https://guimartins015.github.io/appRelatorio-hmg/","./manifest.json"
 
  ];
 
