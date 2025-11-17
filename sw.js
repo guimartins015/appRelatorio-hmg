@@ -43,7 +43,7 @@ self.addEventListener("fetch",(e) => {
 
 self.addEventListener('periodicsync', event => {
 
-  if(event.tag === 'check-scheduled-message'){
+  if(event.tag === 'news-update'){
     event.waitUntil(checarMsgAgendada());
   }
 
