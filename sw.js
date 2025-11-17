@@ -41,7 +41,7 @@ self.addEventListener("fetch",(e) => {
   );
 });
 
-self.addEventListener('periodicsync',event => {
+self.addEventListener('periodicsync', event => {
 
   if(event.tag === 'check-scheduled-message'){
     event.waitUntil(checarMsgAgendada());
@@ -54,7 +54,8 @@ async function checarMsgAgendada() {
   //Carrega a data/titulo e body da mensagem agendada salva no indexedDB
   //cont agendaDB = await getDataAgendadaDB();
 
-  const dataAgendadaAlert = new Date("<DATA-definida>");
+  //const dataAgendadaAlert = new Date("<DATA-definida>");
+  console.log("Executou")
 
   if(new Date()>="2025-11-16"){
 
