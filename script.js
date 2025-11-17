@@ -19,6 +19,8 @@ if("serviceWorker" in navigator){
    sw = false;
 }
 
+console.log("Worker "+sw) 
+
 if(sw){
    console.log("Chegou aqui!"+navigator.serviceWorker.ready) 
    navigator.serviceWorker.ready.then( registrar =>{
