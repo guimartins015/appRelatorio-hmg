@@ -20,7 +20,7 @@ if("serviceWorker" in navigator){
 }
 
 if(sw){
-
+   console.log("Chegou aqui!"+navigator.serviceWorker.ready) 
    navigator.serviceWorker.ready.then( registrar =>{
 
       //REGISTRAR SYNC A CADA 24HORAS
