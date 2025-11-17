@@ -1,7 +1,7 @@
 {
     "name": "Relatório",
     "short_name": "Relatório",
-    "start_url" : "/appRelatorio/",
+    "start_url" : "/appRelatorio-hmg/",
     "display": "standalone",
     "background_color": "#fff",
     "description": "Aplicativo para envio de relatório,Desv:Guilherme",
