@@ -1,6 +1,6 @@
 if("serviceWorker" in navigator){
     var worker = navigator.serviceWorker;
-    await worker.register("./sw.js")
+    worker.register("./sw.js")
     
     .then((reg) => {
     
