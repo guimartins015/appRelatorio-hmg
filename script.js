@@ -21,7 +21,7 @@ if("serviceWorker" in navigator){
 
 console.log("Worker "+sw) 
 
-if(sw){
+//if(sw){
    console.log("Chegou aqui!"+navigator.serviceWorker.ready) 
    navigator.serviceWorker.ready.then( registrar =>{
 
@@ -32,7 +32,7 @@ if(sw){
 
    });
 
-}
+//}
 
 function requestNotifyPermission(){
 
