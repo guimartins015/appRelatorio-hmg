@@ -40,3 +40,34 @@ self.addEventListener("fetch",(e) => {
     })
   );
 });
+
+self.addEventListener('periodicsync',event => {
+
+  if(event.tag === 'check-scheduled-message'){
+    event.waitUntil(checarMsgAgendada());
+  }
+
+});
+
+async function checarMsgAgendada() {
+
+  //Carrega a data/titulo e body da mensagem agendada salva no indexedDB
+  //cont agendaDB = await getDataAgendadaDB();
+
+  const dataAgendadaAlert = new Date("<DATA-definida>");
+
+  if(new Date()>=dataAgendadaAlert){
+
+    //DATA CHEGOU EXIBIR ALERTA
+    self.ServiceWorkerRegistration.showNotification("Titulo da mensagem (agendaDB.title)",{
+       body: "Corpo da mensagem agendaDB.body",
+       icon: '/images/iconeMsg.png'
+    })
+
+    //DELETAR MENSAGEM AGENDADA
+    //deletar do indexedDB 
+    //await deletDataAgendadaDB()
+
+  }
+  
+}
