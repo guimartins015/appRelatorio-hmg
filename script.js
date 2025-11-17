@@ -5,6 +5,7 @@ if("serviceWorker" in navigator){
     .then((reg) => {
     
       console.log("Registro de SW Bem-sucedido",reg);
+      registerPeriodicNewsCheck();
      
     })
     .catch((err) => {
@@ -14,22 +15,20 @@ if("serviceWorker" in navigator){
     });
 
 
-    worker.ready.then( registrar =>{
-
-      //REGISTRAR SYNC A CADA 24HORAS
-      registrar.periodicSync.register('check-scheduled-message',{minInterval: 60*1000/*24*60*60*1000*/}/*um dia*/);
-      console.log("Chegou aqui!")  
-
-    }).catch((err) => {
-    
-      console.log("Erro ao tentar registrar o Periodic", err);
-      
-    }); 
-
-
   }else{
    console.log("Não há serviceWorker");
   }
+
+ async function registerPeriodicNewsCheck() {
+  const registration = await navigator.serviceWorker.ready;
+  try {
+    await registration.periodicSync.register("check-scheduled-message", {
+      minInterval: 60 * 1000,
+    });
+  } catch {
+    console.log("Periodic Sync could not be registered!");
+  }
+}
 
 /* if(sw){
    //console.log("Chegou aqui!"+navigator.serviceWorker.ready) 
