@@ -29,3 +29,30 @@ if(sw){
    });
 
 }
+
+function requestNotifyPermission(){
+
+  if('Notification' in window){
+
+     Notification.requestPermission().then(permission =>{
+      
+      if(permission === 'granted'){
+          
+         new Notification("Sucesso!",{
+           body:'As notificações estão habilitadas'          
+          });
+      }else{
+ 
+         console.warn('Permissão negada')
+
+      }
+     });
+  }else{
+
+    console.error('Este navegador não suuporta API de notificação');
+
+  }
+}
+
+//EXECUTANDO 
+requestNotifyPermission();
