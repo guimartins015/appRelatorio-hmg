@@ -68,12 +68,14 @@ async function checarMsgAgendada() {
   
   //VERIFICA SE EXISTE DATA AGENDADA NO BANCO
   if(dataAgendada!="" || dataAgendada != null){
+    console.log("Tem data");
     
      //FORMATA A DATA RECEBIDA DO BANCO
      const dataAgFormat = new Date(dataAgendada);
   
      //VERIFICA SE A DATA E HORA JÁ PASSOU 
      if(dataAtual>=dataAgFormat){
+      console.log("data passou");
 
         //PEGANDO A DATA E ADICIONANDO UM DIA
         dateVin = new Date();
@@ -106,7 +108,7 @@ async function checarMsgAgendada() {
 
   //SE NÃO TEM DATA NO BANCO AGENDE UMA
   }else{
-
+        console.log("data não existe no db");
         //PEGANDO A DATA E ADICIONANDO UM DIA
         dateVin = new Date();
         anoVin = dateVin.getFullYear();
@@ -130,10 +132,10 @@ function reagende(newData){
   //REGISTRA UM NOVO BACKGROUND SYNC PARA FICAR VERIFICANDO A DATA
   registration.sync.register('alerta-data-futura')
   .then(() => {
-      console.log('Sync de alerta registrado. Aguardando...');
+      console.log('Sync de alerta re-registrado. Aguardando...');
   })
   .catch(error => {
-      console.error('Erro ao registrar o Background Sync:', error);
+      console.error('Erro ao re-registrar o Background Sync:', error);
   }); 
 }
 
