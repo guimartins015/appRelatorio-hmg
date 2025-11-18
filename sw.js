@@ -97,9 +97,6 @@ async function checarMsgAgendada() {
             //CHAMANDO O REAGENDADOR DE DATA
             reagende(novaData);
 
-            // Sucesso: a promessa é resolvida. O navegador não tentará novamente.
-            return Promise.resolve();
-
         }catch (error) {
             
           console.error('[Sync] Erro ao exibir notificação:', error);
@@ -109,6 +106,7 @@ async function checarMsgAgendada() {
 
       //SE NÃO CHEGOU NA DATA CONTINUE ESPERANDO  
       }else{
+        console.log("A data não chegou");
         return Promise.reject();
       }
 
@@ -127,24 +125,27 @@ async function checarMsgAgendada() {
         //CHAMANDO O AGENDADOR DE DATA
         reagende(novaData);
 
-  }
+    }
 }
 
-function reagende(newData){
+async function reagende(newData){
   
   //REAGENDA A DATA DA PROXIMA EXECUÇÃO
   setNewDataAgendadaDB(newData)
    
   //REGISTRA UM NOVO BACKGROUND SYNC PARA FICAR VERIFICANDO A DATA
-  registration.sync.unregister('alerta-data-futura');
+  await registration.sync.unregister('alerta-data-futura');
 
-  registration.sync.register('alerta-data-futura')
+  await registration.sync.register('alerta-data-futura')
   .then(() => {
       console.log('Sync de alerta re-registrado. Aguardando...');
   })
   .catch(error => {
       console.error('Erro ao re-registrar o Background Sync:', error);
   }); 
+
+  return Promise.resolve(); 
+
 }
 
 
