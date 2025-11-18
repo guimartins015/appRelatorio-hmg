@@ -5,6 +5,11 @@ if("serviceWorker" in navigator){
     .then((reg) => {
     
       console.log("Registro de SW Bem-sucedido",reg); 
+      
+      //PEDE PERMISSÃO DE NOTIFICAÇÃO
+      requestNotifyPermission();
+      
+      //REGISTRAR O SYNC DE NOTIFICAÇÃO
       registerPeriodicNewsCheck();     
      
     })
@@ -105,10 +110,12 @@ function requestNotifyPermission(){
      Notification.requestPermission().then(permission =>{
       
       if(permission === 'granted'){
-          
-         new Notification("Sucesso!",{
-           body:'As notificações estão habilitadas'          
-          });
+           /*
+           new Notification("Sucesso!",{
+            body:'As notificações estão habilitadas'          
+           });
+           */
+
       }else{
  
          console.warn('Permissão negada')
@@ -122,5 +129,3 @@ function requestNotifyPermission(){
   }
 }
 
-//EXECUTANDO 
-requestNotifyPermission();

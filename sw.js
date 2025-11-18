@@ -51,25 +51,43 @@ self.addEventListener('sync', event => {
 
 async function checarMsgAgendada() {
 
-  //Carrega a data/titulo e body da mensagem agendada salva no indexedDB
-  //cont agendaDB = await getDataAgendadaDB();
-
-  //const dataAgendadaAlert = new Date("<DATA-definida>");
-  console.log("Executou data")
+  // PEGA A DATA ATUAL DE HOJE
+  const dataAtual = new Date();
   
-  //console.log(new Date()+" "+data) 
+  // PEGA A DATA AGENDADA PARA EXECUTAR
+  const dataAgendada = await getDataAgendadaDB();
 
-  const data = new Date("2025-11-16");  
-  if(new Date()>=data){
 
+  
+  //VERIFICA SE DATA AGENDADA EXISTE
+  //SE NÃO EXISTIR MARCAR PARA O PROXIMO DIA AS 12:00
+
+  //if(dataAtual>=dataAgendada){
+
+    console.log("Data do banco "+dataAgendada);
+    console.log("Data de hoje "+dataAtual);
+
+    
+    //PEGANDO A DATA E ADICIONANDO UM DIA
+    dateVin = new Date();
+    anoVin = dateVin.getFullYear();
+    mesVin = dateVin.getMonth();
+    diaVin = dateVin.getDay()+1; 
+    let novaData = anoVin+"-"+mesVin+"-"+diaVin;
+    
+    //CHAMANDO O REAGENDADOR DE DATA
+    reagende(novaData);
+
+
+    /*
    try{ 
       //DATA CHEGOU EXIBIR ALERTA
-      await self.registration.showNotification("Titulo da mensagem (agendaDB.title)",{
-         body: "Corpo da mensagem agendaDB.body",
+      await self.registration.showNotification("Lembrete do relatório",{
+         body: "Seu relatório ainda não foi enviado!",
          icon: '/images/iconeMsg.png'
       });
 
-      reagende();
+      //reagende();
 
     }catch (error) {
             
@@ -81,13 +99,17 @@ async function checarMsgAgendada() {
     //DELETAR MENSAGEM AGENDADA
     //deletar do indexedDB 
     //await deletDataAgendadaDB()
-
-  }
+    */
+  //}
   
 }
 
-function reagende(){
-  // 3. Registrar o evento de sync para o alerta
+function reagende(newData){
+  
+  //REAGENDA A DATA DA PROXIMA EXECUÇÃO
+  setNewDataAgendadaDB(newData)
+
+  //REGISTRA UM NOVO EVENTO
   registration.sync.register('alerta-data-futura')
   .then(() => {
       console.log('Sync de alerta registrado. Aguardando...');
