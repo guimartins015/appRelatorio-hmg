@@ -1,7 +1,7 @@
 if("serviceWorker" in navigator){
-    var worker = navigator.serviceWorker;
-    worker.register("./sw.js")
     
+    navigator.serviceWorker.register("./sw.js")
+        
     .then((reg) => {
     
       console.log("Registro de SW Bem-sucedido",reg); 
@@ -22,7 +22,39 @@ if("serviceWorker" in navigator){
 
 
  async function registerPeriodicNewsCheck() {
+ 
+   if ('serviceWorker' in navigator && 'SyncManager' in window) {
+    navigator.serviceWorker.register('sw.js')
+        .then(registration => {
+            console.log('Service Worker registrado com sucesso!');
 
+            // 2. Solicitar permissão de notificação (necessário para o alerta)
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    console.log('Permissão de notificação concedida.');
+                    
+                    // 3. Registrar o evento de sync para o alerta
+                    registration.sync.register('alerta-data-futura')
+                        .then(() => {
+                            console.log('Sync de alerta registrado. Aguardando...');
+                        })
+                        .catch(error => {
+                            console.error('Erro ao registrar o Background Sync:', error);
+                        });
+                } else {
+                    console.warn('Permissão de notificação negada. O alerta não será exibido.');
+                }
+            });
+
+        })
+        .catch(error => {
+            console.error('Falha no registro do Service Worker:', error);
+        });
+} else {
+    console.warn('Seu navegador não suporta Service Workers ou Background Sync.');
+} 
+}
+   /*
     if (!('periodicSync' in navigator.serviceWorker.ready)) {
           console.log('Periodic Background Sync não suportado.');
           return;

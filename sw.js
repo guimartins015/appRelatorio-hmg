@@ -41,9 +41,9 @@ self.addEventListener("fetch",(e) => {
   );
 });
 
-self.addEventListener('periodicsync', event => {
+self.addEventListener('sync', event => {
 
-  if(event.tag === 'news-update'){
+  if(event.tag === 'alerta-data-futura'){
     event.waitUntil(checarMsgAgendada());
   }
 
@@ -55,7 +55,7 @@ async function checarMsgAgendada() {
   //cont agendaDB = await getDataAgendadaDB();
 
   //const dataAgendadaAlert = new Date("<DATA-definida>");
-  console.log("Executou")
+  console.log("Executou data")
 
   if(new Date()>="2025-11-16"){
 
