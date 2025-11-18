@@ -56,10 +56,10 @@ async function checarMsgAgendada() {
 
   //const dataAgendadaAlert = new Date("<DATA-definida>");
   console.log("Executou data")
-  //const data = new Date("2025-11-16");
+  
   //console.log(new Date()+" "+data) 
 
-  
+  const data = new Date("2025-11-16");  
   if(new Date()>=data){
 
     //DATA CHEGOU EXIBIR ALERTA
