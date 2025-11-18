@@ -63,9 +63,6 @@ async function checarMsgAgendada() {
   // PEGA A DATA AGENDADA PARA EXECUTAR
   const dataAgendada = await getDataAgendadaDB();
   
-  console.log("Data de hoje "+dataAtual);
-  console.log("Data do banco "+dataAgFormat);
-
   //VERIFICA SE JÁ RELATOU
   
   
