@@ -130,6 +130,13 @@ function reagende(newData){
   setNewDataAgendadaDB(newData)
    
   //REGISTRA UM NOVO BACKGROUND SYNC PARA FICAR VERIFICANDO A DATA
+  registration.sync.unregister('alerta-data-futura')  .then(() => {
+      console.log('Retirando bacground sync anterior');
+  })
+  .catch(error => {
+      console.error('Erro ao retirar background Sync:', error);
+  }); 
+
   registration.sync.register('alerta-data-futura')
   .then(() => {
       console.log('Sync de alerta re-registrado. Aguardando...');
