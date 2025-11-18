@@ -69,6 +69,8 @@ async function checarMsgAgendada() {
          icon: '/images/iconeMsg.png'
       });
 
+      reagende();
+
     }catch (error) {
             
           console.error('[Sync] Erro ao exibir notificação:', error);
@@ -82,4 +84,15 @@ async function checarMsgAgendada() {
 
   }
   
+}
+
+function reagende(){
+  // 3. Registrar o evento de sync para o alerta
+  registration.sync.register('alerta-data-futura')
+  .then(() => {
+      console.log('Sync de alerta registrado. Aguardando...');
+  })
+  .catch(error => {
+      console.error('Erro ao registrar o Background Sync:', error);
+  });
 }
