@@ -77,7 +77,7 @@ async function checarMsgAgendada() {
     //PEGANDO A DATA E ADICIONANDO UM DIA
     dateVin = new Date();
     anoVin = dateVin.getFullYear();
-    mesVin = dateVin.getMonth();
+    mesVin = dateVin.getMonth()+1;
     diaVin = dateVin.getDay()+1; 
     let novaData = anoVin+"-"+mesVin+"-"+diaVin;
     
@@ -115,6 +115,7 @@ function reagende(newData){
   //REAGENDA A DATA DA PROXIMA EXECUÇÃO
   setNewDataAgendadaDB(newData)
 
+  /* 
   //REGISTRA UM NOVO EVENTO
   registration.sync.register('alerta-data-futura')
   .then(() => {
@@ -122,7 +123,7 @@ function reagende(newData){
   })
   .catch(error => {
       console.error('Erro ao registrar o Background Sync:', error);
-  });
+  }); */
 }
 
 
