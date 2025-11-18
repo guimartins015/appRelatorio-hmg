@@ -1,8 +1,11 @@
 
 const DB_NAME = 'LembreteDB';
+const DB_JA_RELAT_MES = 'JaRelatouMesDB';
 const DB_VERSION = 1;
 const STORE_NAME = 'configuracoes';
+const STORE_JA_RELAT_MES = 'JaRelatouMesTB';
 const KEY = "proximaData";
+const KEY_MES_RELAT = "mes";
 
 const CACHE_NAME="v1_cache_panel_adm",
  urlsToCache = [
@@ -63,8 +66,23 @@ async function checarMsgAgendada() {
   // PEGA A DATA AGENDADA PARA EXECUTAR
   const dataAgendada = await getDataAgendadaDB();
   
-  //VERIFICA SE JÁ RELATOU
-  
+  //GERANDO O MES POR EXTENSO
+  dateJaR = new Date();
+  mesJaR = dateJaR.getMonth()-1;
+  if(mesJaR==-1){
+    mesJaR = 11;
+  }
+  var mesPorExtenso = getMesPorExtenso(mesJaR);
+
+  //BUSCA O MES DA BASE DE DADOS 
+  const mesJarelatou = getMesjaRelatouDB();
+  console.log(mesJarelatou)
+
+  //VERIFICA SE TEM MES RELATADO
+  if(typeof mesJarelatou != "undefined") 
+   
+  //VERIFICA SE O MES RELATADO É DIFERENTE  
+  if(mesJarelatou != mesPorExtenso)   
   
   //VERIFICA SE EXISTE DATA AGENDADA NO BANCO
   if(typeof dataAgendada != "undefined"){
@@ -219,4 +237,59 @@ async function setNewDataAgendadaDB(data){
             reject(new Error(`Falha ao armazenar dados: ${event.target.error}`));
         };
     });
+}
+
+async function getMesjaRelatouDB(){
+    
+const db = await openDatabase();
+    
+    return new Promise((resolve, reject) => {
+        // 'readonly' é suficiente para leitura
+        const transaction = db.transaction([STORE_JA_RELAT_MES], 'readonly');
+        const store = transaction.objectStore(STORE_JA_RELAT_MES);
+
+        const request = store.get(KEY_MES_RELAT);
+
+        request.onsuccess = () => {
+            // O IndexedDB preserva o tipo, então se um Date foi armazenado,
+            // um Date será retornado.
+            resolve(request.result); 
+        };
+
+        request.onerror = (event) => {
+            reject(new Error(`Falha ao obter dados: ${event.target.error}`));
+        };
+    });
+
+}
+function getMesPorExtenso(numMes){
+  
+  let mesVingente = "";
+
+  if(numMes=="0"){
+    mesVingente = 'Janeiro'
+  }else if(numMes=="1"){
+    mesVingente = 'Fevereiro'
+  }else if(numMes=="2"){
+    mesVingente = 'Marco'
+  }else if(numMes=="3"){
+    mesVingente = 'Abril'
+  }else if(numMes=="4"){
+    mesVingente = 'Maio'
+  }else if(numMes=="5"){
+    mesVingente = 'Junho'
+  }else if(numMes=="6"){
+    mesVingente = 'Julho'
+  }else if(numMes=="7"){
+    mesVingente = 'Agosto'
+  }else if(numMes=="8"){
+    mesVingente = 'Setembro'
+  }else if(numMes=="9"){
+    mesVingente = 'Outubro'
+  }else if(numMes=="10"){
+    mesVingente = 'Novembro'
+  }else if(numMes=="11"){
+    mesVingente = 'Dezembro'
+  }
+  return mesVingente;
 }
