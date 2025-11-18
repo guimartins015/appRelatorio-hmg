@@ -130,12 +130,15 @@ async function checarMsgAgendada() {
 
 async function reagende(newData){
   
+  console.log("Agendado");
+
   //REAGENDA A DATA DA PROXIMA EXECUÇÃO
   setNewDataAgendadaDB(newData)
    
   //REGISTRA UM NOVO BACKGROUND SYNC PARA FICAR VERIFICANDO A DATA
-  await registration.sync.unregister('alerta-data-futura');
+  //await registration.sync.unregister('alerta-data-futura');
 
+  console.log("Antes Registration");
   await registration.sync.register('alerta-data-futura')
   .then(() => {
       console.log('Sync de alerta re-registrado. Aguardando...');
@@ -143,7 +146,7 @@ async function reagende(newData){
   .catch(error => {
       console.error('Erro ao re-registrar o Background Sync:', error);
   }); 
-
+  console.log("Após Registration");
   return Promise.resolve(); 
 
 }
