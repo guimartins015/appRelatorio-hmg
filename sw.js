@@ -87,7 +87,9 @@ async function checarMsgAgendada() {
     anoVin = dateVin.getFullYear();
     mesVin = dateVin.getMonth()+1;
     diaVin = dateVin.getDate()+1; 
-    let novaData = anoVin+"-"+mesVin+"-"+diaVin;
+    //horaVin = dateVin.getHours();
+    //let novaData = anoVin+"-"+mesVin+"-"+diaVin+" 13:00:00";
+    let novaData = "2025-11-18 14:00:00";
     
     //CHAMANDO O REAGENDADOR DE DATA
     reagende(novaData);
