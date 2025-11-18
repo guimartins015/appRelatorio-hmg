@@ -93,9 +93,12 @@ async function checarMsgAgendada() {
               body: "Seu relatório ainda não foi enviado!",
               icon: '/images/iconeMsg.png'
             });
-          
+            
             //CHAMANDO O REAGENDADOR DE DATA
             reagende(novaData);
+
+            // Sucesso: a promessa é resolvida. O navegador não tentará novamente.
+            return Promise.resolve();
 
         }catch (error) {
             
@@ -104,6 +107,9 @@ async function checarMsgAgendada() {
           return Promise.resolve();
         }
 
+      //SE NÃO CHEGOU NA DATA CONTINUE ESPERANDO  
+      }else{
+        return Promise.reject();
       }
 
   //SE NÃO TEM DATA NO BANCO AGENDE UMA
