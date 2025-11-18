@@ -93,7 +93,7 @@ async function checarMsgAgendada() {
   
      //VERIFICA SE A DATA E HORA JÁ PASSOU 
      if(dataAtual>=dataAgFormat){
-      console.log("data passou");
+      console.log("data passou"); 
 
         //PEGANDO A DATA E ADICIONANDO UM DIA
         dateVin = new Date();
