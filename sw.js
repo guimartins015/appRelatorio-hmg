@@ -62,11 +62,19 @@ async function checarMsgAgendada() {
   const data = new Date("2025-11-16");  
   if(new Date()>=data){
 
-    //DATA CHEGOU EXIBIR ALERTA
-    self.ServiceWorkerRegistration.showNotification("Titulo da mensagem (agendaDB.title)",{
-       body: "Corpo da mensagem agendaDB.body",
-       icon: '/images/iconeMsg.png'
-    })
+   try{ 
+      //DATA CHEGOU EXIBIR ALERTA
+      await self.registration.showNotification("Titulo da mensagem (agendaDB.title)",{
+         body: "Corpo da mensagem agendaDB.body",
+         icon: '/images/iconeMsg.png'
+      });
+
+    }catch (error) {
+            
+          console.error('[Sync] Erro ao exibir notificação:', error);
+          // Se falhar (ex: erro de permissão), ainda podemos resolver o erro para evitar retries infinitos.
+          return Promise.resolve();
+    }
 
     //DELETAR MENSAGEM AGENDADA
     //deletar do indexedDB 
