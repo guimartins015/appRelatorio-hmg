@@ -67,7 +67,7 @@ async function checarMsgAgendada() {
   
   
   //VERIFICA SE EXISTE DATA AGENDADA NO BANCO
-  if(dataAgendada!="" || typeof dataAgendada != "undefined"){
+  if(typeof dataAgendada != "undefined"){
     console.log("Tem data "+dataAgendada);
     
      //FORMATA A DATA RECEBIDA DO BANCO
