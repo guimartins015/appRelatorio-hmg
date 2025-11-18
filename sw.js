@@ -62,16 +62,24 @@ async function checarMsgAgendada() {
   
   // PEGA A DATA AGENDADA PARA EXECUTAR
   const dataAgendada = await getDataAgendadaDB();
+  const dataAgFormat = new Date(dataAgendada);
 
-
+  console.log("Data de hoje "+dataAtual);
+  console.log("Data do banco "+dataAgFormat);
+   
+  if(dataAtual>=dataAgFormat){
+    console.log("Data passou");
+  }else{
+    console.log("Data ainda não passou")
+  }
   
   //VERIFICA SE DATA AGENDADA EXISTE
   //SE NÃO EXISTIR MARCAR PARA O PROXIMO DIA AS 12:00
 
-  //if(dataAtual>=dataAgendada){
+  //if(dataAtual>=dataAgFormat){
 
-    console.log("Data do banco "+dataAgendada);
-    console.log("Data de hoje "+dataAtual);
+    
+    
 
     
     //PEGANDO A DATA E ADICIONANDO UM DIA
