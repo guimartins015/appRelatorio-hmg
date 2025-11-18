@@ -73,5 +73,5 @@ async function checarMsgAgendada() {
     //await deletDataAgendadaDB()
 
   }
-  */
+  
 }
