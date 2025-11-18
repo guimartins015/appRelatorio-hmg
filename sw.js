@@ -62,78 +62,82 @@ async function checarMsgAgendada() {
   
   // PEGA A DATA AGENDADA PARA EXECUTAR
   const dataAgendada = await getDataAgendadaDB();
-  const dataAgFormat = new Date(dataAgendada);
-
+  
   console.log("Data de hoje "+dataAtual);
   console.log("Data do banco "+dataAgFormat);
-   
-  if(dataAtual>=dataAgFormat){
-    console.log("Data passou");
-  }else{
-    console.log("Data ainda não passou")
-  }
+
+  //VERIFICA SE JÁ RELATOU
   
-  //VERIFICA SE DATA AGENDADA EXISTE
-  //SE NÃO EXISTIR MARCAR PARA O PROXIMO DIA AS 12:00
-
-  //if(dataAtual>=dataAgFormat){
-
+  
+  //VERIFICA SE EXISTE DATA AGENDADA NO BANCO
+  if(dataAgendada!="" || dataAgendada != null){
     
-    
+     //FORMATA A DATA RECEBIDA DO BANCO
+     const dataAgFormat = new Date(dataAgendada);
+  
+     //VERIFICA SE A DATA E HORA JÁ PASSOU 
+     if(dataAtual>=dataAgFormat){
 
-    
-    //PEGANDO A DATA E ADICIONANDO UM DIA
-    dateVin = new Date();
-    anoVin = dateVin.getFullYear();
-    mesVin = dateVin.getMonth()+1;
-    diaVin = dateVin.getDate()+1; 
-    //horaVin = dateVin.getHours();
-    //let novaData = anoVin+"-"+mesVin+"-"+diaVin+" 13:00:00";
-    let novaData = "2025-11-18 13:00:00";
-    
-    //CHAMANDO O REAGENDADOR DE DATA
-    reagende(novaData);
+        //PEGANDO A DATA E ADICIONANDO UM DIA
+        dateVin = new Date();
+        anoVin = dateVin.getFullYear();
+        mesVin = dateVin.getMonth()+1;
+        diaVin = dateVin.getDate()+1; 
+        //horaVin = dateVin.getHours();
+        let novaData = anoVin+"-"+mesVin+"-"+diaVin+" 13:00:00";
+        //let novaData = "2025-11-18 13:00:00";
 
+ 
+        try{ 
+            //DATA CHEGOU EXIBIR ALERTA
+            await self.registration.showNotification("Lembrete do relatório",{
+              body: "Seu relatório ainda não foi enviado!",
+              icon: '/images/iconeMsg.png'
+            });
+          
+            //CHAMANDO O REAGENDADOR DE DATA
+            reagende(novaData);
 
-    /*
-   try{ 
-      //DATA CHEGOU EXIBIR ALERTA
-      await self.registration.showNotification("Lembrete do relatório",{
-         body: "Seu relatório ainda não foi enviado!",
-         icon: '/images/iconeMsg.png'
-      });
-
-      //reagende();
-
-    }catch (error) {
+        }catch (error) {
             
           console.error('[Sync] Erro ao exibir notificação:', error);
           // Se falhar (ex: erro de permissão), ainda podemos resolver o erro para evitar retries infinitos.
           return Promise.resolve();
-    }
+        }
 
-    //DELETAR MENSAGEM AGENDADA
-    //deletar do indexedDB 
-    //await deletDataAgendadaDB()
-    */
-  //}
-  
+      }
+
+  //SE NÃO TEM DATA NO BANCO AGENDE UMA
+  }else{
+
+        //PEGANDO A DATA E ADICIONANDO UM DIA
+        dateVin = new Date();
+        anoVin = dateVin.getFullYear();
+        mesVin = dateVin.getMonth()+1;
+        diaVin = dateVin.getDate()+1; 
+        //horaVin = dateVin.getHours();
+        let novaData = anoVin+"-"+mesVin+"-"+diaVin+" 13:00:00";
+        //let novaData = "2025-11-18 13:00:00";
+    
+        //CHAMANDO O AGENDADOR DE DATA
+        reagende(novaData);
+
+  }
 }
 
 function reagende(newData){
   
   //REAGENDA A DATA DA PROXIMA EXECUÇÃO
   setNewDataAgendadaDB(newData)
-
-  /* 
-  //REGISTRA UM NOVO EVENTO
+   
+  //REGISTRA UM NOVO BACKGROUND SYNC PARA FICAR VERIFICANDO A DATA
   registration.sync.register('alerta-data-futura')
   .then(() => {
       console.log('Sync de alerta registrado. Aguardando...');
   })
   .catch(error => {
       console.error('Erro ao registrar o Background Sync:', error);
-  }); */
+  }); 
 }
 
 
