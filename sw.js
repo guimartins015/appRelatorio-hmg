@@ -95,7 +95,7 @@ async function checarMsgAgendada() {
             });
             
             //CHAMANDO O REAGENDADOR DE DATA
-            reagende(novaData);
+            await reagende(novaData);
 
         }catch (error) {
             
