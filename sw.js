@@ -78,7 +78,7 @@ async function checarMsgAgendada() {
     dateVin = new Date();
     anoVin = dateVin.getFullYear();
     mesVin = dateVin.getMonth()+1;
-    diaVin = dateVin.getDay()+1; 
+    diaVin = dateVin.getDate()+1; 
     let novaData = anoVin+"-"+mesVin+"-"+diaVin;
     
     //CHAMANDO O REAGENDADOR DE DATA
