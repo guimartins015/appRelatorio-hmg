@@ -115,8 +115,8 @@ async function checarMsgAgendada() {
         mesVin = dateVin.getMonth()+1;
         diaVin = dateVin.getDate()+1; 
         //horaVin = dateVin.getHours();
-        let novaData = anoVin+"-"+mesVin+"-"+diaVin+" 13:00:00";
-        //let novaData = "2025-11-18 13:00:00";
+        //let novaData = anoVin+"-"+mesVin+"-"+diaVin+" 13:00:00";
+        let novaData = "2025-11-18 14:50:00";
     
         //CHAMANDO O AGENDADOR DE DATA
         reagende(novaData);
