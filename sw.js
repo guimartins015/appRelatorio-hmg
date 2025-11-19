@@ -65,15 +65,16 @@ async function checarMsgAgendada() {
   
   // PEGA A DATA AGENDADA PARA EXECUTAR
   const dataAgendada = await getDataAgendadaDB();
-  
+  console.log("1")
   //GERANDO O MES POR EXTENSO
   dateJaR = new Date();
   mesJaR = dateJaR.getMonth()-1;
   if(mesJaR==-1){
     mesJaR = 11;
   }
+  console.log("2")
   var mesPorExtenso = getMesPorExtenso(mesJaR);
-
+  console.log("3")
   //BUSCA O MES DA BASE DE DADOS 
   var mesJarelatou = await getMesjaRelatouDB();
   console.log("mes "+mesJarelatou)
