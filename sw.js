@@ -76,7 +76,7 @@ async function checarMsgAgendada() {
 
   //BUSCA O MES DA BASE DE DADOS 
   const mesJarelatou = await getMesjaRelatouDB();
-  console.log(mesJarelatou)
+  console.log("mes "+mesJarelatou)
 
   //VERIFICA SE TEM MES RELATADO
   if(typeof mesJarelatou != "undefined") 
