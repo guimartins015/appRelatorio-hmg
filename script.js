@@ -31,44 +31,36 @@ if("serviceWorker" in navigator){
    if ('serviceWorker' in navigator && 'SyncManager' in window) {
     
        try{
-        
-        await navigator.serviceWorker.register('sw.js')
-        .then(async registration => {
-            console.log('Service Worker registrado com sucesso!');
+          const registration = await navigator.serviceWorker.register('sw.js')
+          console.log('Service Worker registrado com sucesso!');
 
           try{   
-            // 2. Solicitar permissão de notificação (necessário para o alerta)
-            await Notification.requestPermission().then( async permission => {
-                if (permission === 'granted') {
-                    console.log('Permissão de notificação concedida.');
+             // 2. Solicitar permissão de notificação (necessário para o alerta)
+             const permission = await Notification.requestPermission();
+            
+             if (permission === 'granted') {
+                 console.log('Permissão de notificação concedida.');
 
-                    await new Promise(resolve => setTimeout(resolve, 100));
+                 //await new Promise(resolve => setTimeout(resolve, 100));
                     
-                    // 3. Registrar o evento de sync para o alerta
-                    registration.sync.register('alerta-data-futura')
-                        .then(() => {
-                            console.log('Sync de alerta registrado. Aguardando...');
-                        })
-                        .catch(error => {
-                            console.error('Erro ao registrar o Background Sync:', error);
-                        });
-                } else {
-                    console.warn('Permissão de notificação negada. O alerta não será exibido.');
-                }
-            });
+                 // 3. Registrar o evento de sync para o alerta
+                 await registration.sync.register('alerta-data-futura');
+                 console.log('Sync de alerta registrado. Aguardando...');
+              }else{
+                 console.warn('Permissão de notificação negada. O alerta não será exibido.');
+              }
+            }catch(notificationError){
+                console.error('Erro CRÍTICO ao solicitar permissão de notificação:', notificationError);                        
+            }
+                
+        } catch (swError) {
+            // Captura erros no registro do Service Worker ou do Sync
+            console.error('Falha na inicialização do Service Worker ou Background Sync:', swError);
+        }
 
-          }catch{} 
-
-        })
-        .catch(error => {
-            console.error('Falha no registro do Service Worker:', error);
-        });
-
-         }catch{}    
-
-} else {
-    console.warn('Seu navegador não suporta Service Workers ou Background Sync.');
-} 
+    } else {
+        console.warn('Seu navegador não suporta Service Workers ou Background Sync.');
+    }
 }
 
 function requestNotifyPermission(){
