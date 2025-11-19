@@ -57,7 +57,7 @@ self.addEventListener('sync', event => {
 });
 
 // Exemplo: Frame Principal recebendo a resposta
-window.addEventListener('message', (event) => {
+self.addEventListener('message', (event) => {
     // PASSO DE SEGURANÇA CRUCIAL: Verifique sempre a origem
     if (event.origin !== 'https://script.google.com/macros/s/AKfycbyMC6eBnbwTE1ZbFNUxeukWIf7YCZi3a4YmF0gPcT_YFoJ9_PyFRF3tylxvkEHQCtpnsA/exec') {
         return; // Ignora mensagens de origens não confiáveis
