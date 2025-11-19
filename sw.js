@@ -75,7 +75,7 @@ async function checarMsgAgendada() {
   var mesPorExtenso = getMesPorExtenso(mesJaR);
 
   //BUSCA O MES DA BASE DE DADOS 
-  const mesJarelatou = getMesjaRelatouDB();
+  const mesJarelatou = await getMesjaRelatouDB();
   console.log(mesJarelatou)
 
   //VERIFICA SE TEM MES RELATADO
