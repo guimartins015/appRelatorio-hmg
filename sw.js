@@ -1,11 +1,9 @@
 
 const DB_NAME = 'LembreteDB';
-const DB_JA_RELAT_MES = 'JaRelatouMesDB';
 const DB_VERSION = 1;
 const STORE_NAME = 'configuracoes';
-const STORE_JA_RELAT_MES = 'JaRelatouMesTB';
 const KEY = "proximaData";
-const KEY_MES_RELAT = "mes";
+
 
 const CACHE_NAME="v1_cache_panel_adm",
  urlsToCache = [
@@ -241,51 +239,38 @@ async function setNewDataAgendadaDB(data){
     });
 }
 
-
-function openDatabaseJaR() {
-    return new Promise((resolve, reject) => {
-        const request = indexedDB.open(DB_JA_RELAT_MES, DB_VERSION);
-
-        request.onupgradeneeded = (event) => {
-            const db = event.target.result;
-            if (!db.objectStoreNames.contains(STORE_JA_RELAT_MES)) {
-                // Criamos um Object Store para armazenar configurações/dados simples
-                // A chave primária (keyPath) não é necessária aqui, usaremos uma chave manual (ex: 'alertaData')
-                //db.createObjectStore(STORE_JA_RELAT_MES); 
-            }
-        };
-
-        request.onsuccess = (event) => {
-            resolve(event.target.result); // Retorna o objeto IDBDatabase
-        };
-
-        request.onerror = (event) => {
-            reject(new Error(`Erro ao abrir DB: ${event.target.errorCode}`));
-        };
-    });
-}
-
 async function getMesjaRelatouDB(){
-    
-    const db = await openDatabaseJaR();
-    
-    return new Promise((resolve, reject) => {
-        // 'readonly' é suficiente para leitura
-        const transaction = db.transaction([STORE_JA_RELAT_MES], 'readonly');
-        const store = transaction.objectStore(STORE_JA_RELAT_MES);
 
-        const request = store.get(KEY_MES_RELAT);
+  // Exemplo: Frame Principal enviando uma requisição para o iframe
+  const iframe = document.getElementById('iframe');
+  const requestMessage = {
+    action: 'get_data',          // O que fazer (ex: get, put, delete)
+    store: 'JaRelatouMesTB',           // O objectStore a ser usado
+    key: "mes",                    // A chave do dado a ser buscado/alterado
+    data: null,                  // Dados a serem enviados (se for um 'put')
+    requestId: Date.now() + Math.random() // ID único para rastrear a resposta
+  };
 
-        request.onsuccess = () => {
-            // O IndexedDB preserva o tipo, então se um Date foi armazenado,
-            // um Date será retornado.
-            resolve(request.result); 
-        };
+  // **IMPORTANTE:** Use a origem correta do seu iframe em vez de '*'
+  iframe.contentWindow.postMessage(requestMessage, 'https://guimartins015.github.io/appRelatorio-hmg/'); 
+  
+  // Exemplo: Frame Principal recebendo a resposta
+  window.addEventListener('message', (event) => {
+    // PASSO DE SEGURANÇA CRUCIAL: Verifique sempre a origem
+    if (event.origin !== 'https://script.google.com/macros/s/AKfycbyMC6eBnbwTE1ZbFNUxeukWIf7YCZi3a4YmF0gPcT_YFoJ9_PyFRF3tylxvkEHQCtpnsA/exec') {
+        return; // Ignora mensagens de origens não confiáveis
+    }
 
-        request.onerror = (event) => {
-            reject(new Error(`Falha ao obter dados: ${event.target.error}`));
-        };
-    });
+    const { responseTo, status, result } = event.data;
+
+    if (responseTo) {
+        // Encontre o RequestId correspondente para resolver a Promise (se estiver usando Promises)
+        console.log(`Resposta para requisição ${responseTo}. Status: ${status}`);
+        if (status === 'success') {
+            console.log('Dados do IndexedDB:', result);
+        }
+    }
+  });
 
 }
 function getMesPorExtenso(numMes){
