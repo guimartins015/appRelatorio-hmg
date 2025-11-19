@@ -77,6 +77,7 @@ async function checarMsgAgendada() {
   console.log("3")
   //BUSCA O MES DA BASE DE DADOS 
   var mesJarelatou = await getMesjaRelatouDB();
+  console.log("4")
   console.log("mes "+mesJarelatou)
 
   //VERIFICA SE TEM MES RELATADO
@@ -240,9 +241,33 @@ async function setNewDataAgendadaDB(data){
     });
 }
 
+
+function openDatabaseJaR() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_JA_RELAT_MES, DB_VERSION);
+
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains(STORE_JA_RELAT_MES)) {
+                // Criamos um Object Store para armazenar configurações/dados simples
+                // A chave primária (keyPath) não é necessária aqui, usaremos uma chave manual (ex: 'alertaData')
+                db.createObjectStore(STORE_JA_RELAT_MES); 
+            }
+        };
+
+        request.onsuccess = (event) => {
+            resolve(event.target.result); // Retorna o objeto IDBDatabase
+        };
+
+        request.onerror = (event) => {
+            reject(new Error(`Erro ao abrir DB: ${event.target.errorCode}`));
+        };
+    });
+}
+
 async function getMesjaRelatouDB(){
     
-const db = await openDatabase();
+    const db = await openDatabaseJaR();
     
     return new Promise((resolve, reject) => {
         // 'readonly' é suficiente para leitura
