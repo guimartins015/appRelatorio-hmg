@@ -7,7 +7,7 @@ if("serviceWorker" in navigator){
       console.log("Registro de SW Bem-sucedido",reg); 
       
       //PEDE PERMISSÃO DE NOTIFICAÇÃO
-      requestNotifyPermission();
+      //requestNotifyPermission();
       
       //REGISTRAR O SYNC DE NOTIFICAÇÃO
       registerPeriodicNewsCheck();     
@@ -39,7 +39,7 @@ if("serviceWorker" in navigator){
              const permission = await Notification.requestPermission();
 
               //ESPERE O UM POUCO PARA MUDAR O FOCO 
-              await new Promise(resolve => setTimeout(resolve, 100));
+              //await new Promise(resolve => setTimeout(resolve, 100));
             
              if (permission === 'granted') {
                  console.log('Permissão de notificação concedida.');
