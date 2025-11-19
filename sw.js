@@ -56,6 +56,24 @@ self.addEventListener('sync', event => {
 
 });
 
+// Exemplo: Frame Principal recebendo a resposta
+window.addEventListener('message', (event) => {
+    // PASSO DE SEGURANÇA CRUCIAL: Verifique sempre a origem
+    if (event.origin !== 'https://script.google.com/macros/s/AKfycbyMC6eBnbwTE1ZbFNUxeukWIf7YCZi3a4YmF0gPcT_YFoJ9_PyFRF3tylxvkEHQCtpnsA/exec') {
+        return; // Ignora mensagens de origens não confiáveis
+    }
+
+    const { responseTo, status, result } = event.data;
+
+    if (responseTo) {
+        // Encontre o RequestId correspondente para resolver a Promise (se estiver usando Promises)
+        console.log(`Resposta para requisição ${responseTo}. Status: ${status}`);
+        if (status === 'success') {
+            console.log('Dados do IndexedDB:', result);
+        }
+    }
+});
+
 async function checarMsgAgendada() {
 
   // PEGA A DATA ATUAL DE HOJE
@@ -253,24 +271,6 @@ async function getMesjaRelatouDB(){
 
   // **IMPORTANTE:** Use a origem correta do seu iframe em vez de '*'
   iframe.contentWindow.postMessage(requestMessage, 'https://guimartins015.github.io/appRelatorio-hmg/'); 
-  
-  // Exemplo: Frame Principal recebendo a resposta
-  window.addEventListener('message', (event) => {
-    // PASSO DE SEGURANÇA CRUCIAL: Verifique sempre a origem
-    if (event.origin !== 'https://script.google.com/macros/s/AKfycbyMC6eBnbwTE1ZbFNUxeukWIf7YCZi3a4YmF0gPcT_YFoJ9_PyFRF3tylxvkEHQCtpnsA/exec') {
-        return; // Ignora mensagens de origens não confiáveis
-    }
-
-    const { responseTo, status, result } = event.data;
-
-    if (responseTo) {
-        // Encontre o RequestId correspondente para resolver a Promise (se estiver usando Promises)
-        console.log(`Resposta para requisição ${responseTo}. Status: ${status}`);
-        if (status === 'success') {
-            console.log('Dados do IndexedDB:', result);
-        }
-    }
-  });
 
 }
 function getMesPorExtenso(numMes){
