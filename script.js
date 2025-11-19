@@ -7,10 +7,10 @@ if("serviceWorker" in navigator){
       console.log("Registro de SW Bem-sucedido",reg); 
       
       //PEDE PERMISSÃO DE NOTIFICAÇÃO
-      //requestNotifyPermission();
+      const permission = requestNotifyPermission();
       
       //REGISTRAR O SYNC DE NOTIFICAÇÃO
-      registerPeriodicNewsCheck();     
+      registerPeriodicNewsCheck(permission);     
      
     })
     .catch((err) => {
@@ -26,7 +26,7 @@ if("serviceWorker" in navigator){
 
 
 
- async function registerPeriodicNewsCheck() {
+ async function registerPeriodicNewsCheck(permissao) {
  
    if ('serviceWorker' in navigator && 'SyncManager' in window) {
     
@@ -34,14 +34,8 @@ if("serviceWorker" in navigator){
           const registration = await navigator.serviceWorker.register('sw.js')
           console.log('Service Worker registrado com sucesso!');
 
-          try{   
-             // 2. Solicitar permissão de notificação (necessário para o alerta)
-             const permission = await Notification.requestPermission();
-
-              //ESPERE O UM POUCO PARA MUDAR O FOCO 
-              //await new Promise(resolve => setTimeout(resolve, 100));
-            
-             if (permission === 'granted') {
+           
+             if (permissao) {
                  console.log('Permissão de notificação concedida.');
                     
                  // 3. Registrar o evento de sync para o alerta
@@ -49,11 +43,7 @@ if("serviceWorker" in navigator){
                  console.log('Sync de alerta registrado. Aguardando...');
               }else{
                  console.warn('Permissão de notificação negada. O alerta não será exibido.');
-              }
-            }catch(notificationError){
-                console.error('Erro CRÍTICO ao solicitar permissão de notificação:', notificationError);                        
-            }
-                
+              }                        
         } catch (swError) {
             // Captura erros no registro do Service Worker ou do Sync
             console.error('Falha na inicialização do Service Worker ou Background Sync:', swError);
@@ -64,29 +54,29 @@ if("serviceWorker" in navigator){
     }
 }
 
-function requestNotifyPermission(){
+async function requestNotifyPermission(){
 
+  var retorno = false;
   if('Notification' in window){
 
-     Notification.requestPermission().then(permission =>{
+     await Notification.requestPermission().then(permission =>{
       
       if(permission === 'granted'){
-           /*
-           new Notification("Sucesso!",{
-            body:'As notificações estão habilitadas'          
-           });
-           */
+ 
+         retorno = true;
 
       }else{
  
-         console.warn('Permissão negada')
+         retorno = false;
 
       }
      });
   }else{
 
     console.error('Este navegador não suuporta API de notificação');
+    retorno = false;
 
   }
+  return retorno;
 }
 
