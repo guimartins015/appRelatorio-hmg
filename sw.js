@@ -65,19 +65,19 @@ async function checarMsgAgendada() {
   
   // PEGA A DATA AGENDADA PARA EXECUTAR
   const dataAgendada = await getDataAgendadaDB();
-  console.log("1")
+  
   //GERANDO O MES POR EXTENSO
   dateJaR = new Date();
   mesJaR = dateJaR.getMonth()-1;
   if(mesJaR==-1){
     mesJaR = 11;
   }
-  console.log("2")
+ 
   var mesPorExtenso = getMesPorExtenso(mesJaR);
-  console.log("3")
+  
   //BUSCA O MES DA BASE DE DADOS 
   var mesJarelatou = await getMesjaRelatouDB();
-  console.log("4")
+
   console.log("mes "+mesJarelatou)
 
   //VERIFICA SE TEM MES RELATADO
@@ -251,7 +251,7 @@ function openDatabaseJaR() {
             if (!db.objectStoreNames.contains(STORE_JA_RELAT_MES)) {
                 // Criamos um Object Store para armazenar configurações/dados simples
                 // A chave primária (keyPath) não é necessária aqui, usaremos uma chave manual (ex: 'alertaData')
-                db.createObjectStore(STORE_JA_RELAT_MES); 
+                //db.createObjectStore(STORE_JA_RELAT_MES); 
             }
         };
 
