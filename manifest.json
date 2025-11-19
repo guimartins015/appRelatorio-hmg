@@ -4,7 +4,7 @@
     "start_url" : "/appRelatorio-hmg/",
     "display": "standalone",
     "background_color": "#fff",
-    "description": "Aplicativo para envio de relatório,Desv:Guilherme",
+    "description": "Aplicativo para envio de relatório,Desv:Guilherme Version: 0.0.2",
     "icons": [
       
       {
