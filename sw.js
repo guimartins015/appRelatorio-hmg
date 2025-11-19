@@ -56,24 +56,6 @@ self.addEventListener('sync', event => {
 
 });
 
-// Exemplo: Frame Principal recebendo a resposta
-self.addEventListener('message', (event) => {
-    // PASSO DE SEGURANÇA CRUCIAL: Verifique sempre a origem
-    if (event.origin !== 'https://script.google.com/macros/s/AKfycbyMC6eBnbwTE1ZbFNUxeukWIf7YCZi3a4YmF0gPcT_YFoJ9_PyFRF3tylxvkEHQCtpnsA/exec') {
-        return; // Ignora mensagens de origens não confiáveis
-    }
-
-    const { responseTo, status, result } = event.data;
-
-    if (responseTo) {
-        // Encontre o RequestId correspondente para resolver a Promise (se estiver usando Promises)
-        console.log(`Resposta para requisição ${responseTo}. Status: ${status}`);
-        if (status === 'success') {
-            console.log('Dados do IndexedDB:', result);
-        }
-    }
-});
-
 async function checarMsgAgendada() {
 
   // PEGA A DATA ATUAL DE HOJE
@@ -82,31 +64,11 @@ async function checarMsgAgendada() {
   // PEGA A DATA AGENDADA PARA EXECUTAR
   const dataAgendada = await getDataAgendadaDB();
   
-  //GERANDO O MES POR EXTENSO
-  dateJaR = new Date();
-  mesJaR = dateJaR.getMonth()-1;
-  if(mesJaR==-1){
-    mesJaR = 11;
-  }
- 
-  var mesPorExtenso = getMesPorExtenso(mesJaR);
-  
-  //BUSCA O MES DA BASE DE DADOS 
-  var mesJarelatou = await getMesjaRelatouDB();
-
-  console.log("mes "+mesJarelatou)
-
-  //VERIFICA SE TEM MES RELATADO
-  if(typeof mesJarelatou != "undefined") 
-   
-  //VERIFICA SE O MES RELATADO É DIFERENTE  
-  if(mesJarelatou != mesPorExtenso)   
-  
   //VERIFICA SE EXISTE DATA AGENDADA NO BANCO
   if(typeof dataAgendada != "undefined"){
     console.log("Tem data "+dataAgendada);
     
-     //FORMATA A DATA RECEBIDA DO BANCO
+     //FORMATA A DATA STRING RECEBIDA DO BANCO EM DATE
      const dataAgFormat = new Date(dataAgendada);
   
      //VERIFICA SE A DATA E HORA JÁ PASSOU 
@@ -116,17 +78,20 @@ async function checarMsgAgendada() {
         //PEGANDO A DATA E ADICIONANDO UM DIA
         dateVin = new Date();
         anoVin = dateVin.getFullYear();
-        mesVin = dateVin.getMonth()+1;
-        diaVin = dateVin.getDate()+1; 
+        mesVin = (dateVin.getMonth()+1)+1; //PROXIMO MÊS
+        //SE DEZEMBRO VAI PARA JANEIRO
+        if(mesVin==13){
+          mesVin=1;
+        }   
+        diaVin = 15;
+        //diaVin = dateVin.getDate()+1; 
         //horaVin = dateVin.getHours();
         let novaData = anoVin+"-"+mesVin+"-"+diaVin+" 13:00:00";
-        //let novaData = "2025-11-18 13:00:00";
-
- 
+      
         try{ 
             //DATA CHEGOU EXIBIR ALERTA
             await self.registration.showNotification("Lembrete do relatório",{
-              body: "Seu relatório ainda não foi enviado!",
+              body: "Se já enviou o relatório, desconsidere esse lembrete",
               icon: '/images/iconeMsg.png'
             });
             
@@ -152,11 +117,16 @@ async function checarMsgAgendada() {
         //PEGANDO A DATA E ADICIONANDO UM DIA
         dateVin = new Date();
         anoVin = dateVin.getFullYear();
-        mesVin = dateVin.getMonth()+1;
-        diaVin = dateVin.getDate()+1; 
+        mesVin = (dateVin.getMonth()+1)+1;//PRÓXIMO MES
+        //SE DEZEMBRO VAI PARA JANEIRO
+        if(mesVin==13){
+          mesVin=1;
+        }   
+        diaVin = 15;
+        //diaVin = dateVin.getDate()+1; 
         //horaVin = dateVin.getHours();
         //let novaData = anoVin+"-"+mesVin+"-"+diaVin+" 13:00:00";
-        let novaData = "2025-11-18 13:50:00";
+        let novaData = "2025-11-19 09:00:00";
     
         //CHAMANDO O AGENDADOR DE DATA
         reagende(novaData);
@@ -255,52 +225,4 @@ async function setNewDataAgendadaDB(data){
             reject(new Error(`Falha ao armazenar dados: ${event.target.error}`));
         };
     });
-}
-
-async function getMesjaRelatouDB(){
-
-  // Exemplo: Frame Principal enviando uma requisição para o iframe
-  const iframe = document.getElementById('iframe');
-  const requestMessage = {
-    action: 'get_data',          // O que fazer (ex: get, put, delete)
-    store: 'JaRelatouMesTB',           // O objectStore a ser usado
-    key: "mes",                    // A chave do dado a ser buscado/alterado
-    data: null,                  // Dados a serem enviados (se for um 'put')
-    requestId: Date.now() + Math.random() // ID único para rastrear a resposta
-  };
-
-  // **IMPORTANTE:** Use a origem correta do seu iframe em vez de '*'
-  iframe.contentWindow.postMessage(requestMessage, 'https://guimartins015.github.io/appRelatorio-hmg/'); 
-
-}
-function getMesPorExtenso(numMes){
-  
-  let mesVingente = "";
-
-  if(numMes=="0"){
-    mesVingente = 'Janeiro'
-  }else if(numMes=="1"){
-    mesVingente = 'Fevereiro'
-  }else if(numMes=="2"){
-    mesVingente = 'Marco'
-  }else if(numMes=="3"){
-    mesVingente = 'Abril'
-  }else if(numMes=="4"){
-    mesVingente = 'Maio'
-  }else if(numMes=="5"){
-    mesVingente = 'Junho'
-  }else if(numMes=="6"){
-    mesVingente = 'Julho'
-  }else if(numMes=="7"){
-    mesVingente = 'Agosto'
-  }else if(numMes=="8"){
-    mesVingente = 'Setembro'
-  }else if(numMes=="9"){
-    mesVingente = 'Outubro'
-  }else if(numMes=="10"){
-    mesVingente = 'Novembro'
-  }else if(numMes=="11"){
-    mesVingente = 'Dezembro'
-  }
-  return mesVingente;
 }
