@@ -86,8 +86,8 @@ async function checarMsgAgendada() {
         diaVin = 15;
         //diaVin = dateVin.getDate()+1; 
         //horaVin = dateVin.getHours();
-        //let novaData = anoVin+"-"+mesVin+"-"+diaVin+" 13:00:00";
-        let novaData = "2025-11-19 16:53:00";
+        let novaData = anoVin+"-"+mesVin+"-"+diaVin+" 13:00:00";
+        //let novaData = "2025-11-19 16:53:00";
       
         try{ 
             //DATA CHEGOU EXIBIR ALERTA
@@ -126,8 +126,8 @@ async function checarMsgAgendada() {
         diaVin = 15;
         //diaVin = dateVin.getDate()+1; 
         //horaVin = dateVin.getHours();
-        //let novaData = anoVin+"-"+mesVin+"-"+diaVin+" 13:00:00";
-        let novaData = "2025-11-19 16:53:00";
+        let novaData = anoVin+"-"+mesVin+"-"+diaVin+" 13:00:00";
+        //let novaData = "2025-11-19 16:53:00";
     
         //CHAMANDO O AGENDADOR DE DATA
         reagende(novaData);
