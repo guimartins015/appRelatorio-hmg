@@ -37,11 +37,12 @@ if("serviceWorker" in navigator){
           try{   
              // 2. Solicitar permissão de notificação (necessário para o alerta)
              const permission = await Notification.requestPermission();
+
+              //ESPERE O UM POUCO PARA MUDAR O FOCO 
+              await new Promise(resolve => setTimeout(resolve, 100));
             
              if (permission === 'granted') {
                  console.log('Permissão de notificação concedida.');
-
-                 //await new Promise(resolve => setTimeout(resolve, 100));
                     
                  // 3. Registrar o evento de sync para o alerta
                  await registration.sync.register('alerta-data-futura');
